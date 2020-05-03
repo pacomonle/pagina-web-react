@@ -1,24 +1,31 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+// import logo from './assets/images/logo.svg';
+import './assets/css/App.css';
+// importar componentes
+import Header from "./components/Header";
+import Slider from "./components/Slider";
+import Sidebar from "./components/Sidebar";
+import Footer from "./components/Footer";
+//import SeccionPruebas from "./components/SeccionPruebas";
+import Peliculas from "./components/Peliculas";
+
+
 
 function App() {
+var buttonString = "Ir al blog" ;
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header></Header>
+      <Slider
+       titulo="Bienvenido al Curso de React con Francisco Monleon"
+       btn={buttonString}>
+       </Slider>
+      <div className="center">
+        <Peliculas></Peliculas>
+        <Sidebar></Sidebar>
+     </div>
+      <Footer></Footer>
     </div>
   );
 }
