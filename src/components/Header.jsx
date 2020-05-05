@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import logo from '../assets/images/logo.svg';
+// importar el Navlink para link del navegador
+import { NavLink } from "react-router-dom";
+
 
 
 export default class Header extends Component {
@@ -8,35 +11,40 @@ export default class Header extends Component {
             <div>
                 <header id="header">
                     <div className="center">
-                        
-                <div id="logo">
+
+                        <div id="logo">
                             <img src={logo} className="app-logo" alt="Logotipo" />
                             <span id="brand">
                                 <strong>Curso</strong>React
                         </span>
                         </div>
 
-                <nav id="menu">
+                        <nav id="menu">
                             <ul>
                                 <li>
-                                    <a href="index.html">Inicio</a>
+                                    <NavLink to="/home" activeClassName="active">Inicio</NavLink>
+                                  
                                 </li>
                                 <li>
-                                    <a href="blog.html">Blog</a>
+                                    <NavLink to="/blog" activeClassName="active">Blog</NavLink>
+                                  
                                 </li>
                                 <li>
-                                    <a href="formulario.html">Formulario</a>
+                                    <NavLink to="/formulario" activeClassName="active">Formulario</NavLink>
+                                    
                                 </li>
                                 <li>
-                                    <a href="#">Pagina 1</a>
+                                    <NavLink to="/peliculas" activeClassName="active">Peliculas</NavLink>
+
                                 </li>
                                 <li>
-                                    <a href="#">Pagina 2</a>
+                                    <NavLink to="/prueba/:paco" activeClassName="active">Pagina 2</NavLink>
+        
                                 </li>
                             </ul>
                         </nav>
 
-                <div className="clearfix"></div>
+                        <div className="clearfix"></div>
                     </div>
                 </header>
             </div>

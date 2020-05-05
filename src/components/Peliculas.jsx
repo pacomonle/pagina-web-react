@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import MensajeEstatico from './MensajeEstatico';
 import Pelicula from './Pelicula';
-
-
+import Slider from "./Slider";
+import Sidebar from "./Sidebar";
 
 export default class Peliculas extends Component {
   // inicializar el state vacio
@@ -13,7 +13,7 @@ export default class Peliculas extends Component {
   }
 
   cambiarTitulo = () => {
-    var { peliculas } = this.setState;
+    var { peliculas } = this.state;
     // var random = Math.floor(Math.random() * 3);
     peliculas[0].titulo = "Batman Begins"; // aqui poner random en vez de 0
     this.setState({
@@ -30,7 +30,7 @@ export default class Peliculas extends Component {
   }
 
   componentDidMount() {
-    alert('se acaba de cargar el componente peliculas');
+    //alert('se acaba de cargar el componente peliculas');
 
     this.setState({
       peliculas: [
@@ -62,7 +62,7 @@ export default class Peliculas extends Component {
           <span>{this.state.favorita.titulo}</span>
         </p>)
     } else {
-      miFavorita = (<p>TIENES QUE SELECCIONAR UNA PELICULA FAVORITA</p> )
+      miFavorita = (<p>TIENES QUE SELECCIONAR UNA PELICULA FAVORITA</p>)
     }
 
 
@@ -70,33 +70,43 @@ export default class Peliculas extends Component {
 
 
     return (
-      <div id="content" className="peliculas">
-        <h2 className="subheader">Peliculas</h2>
-        <MensajeEstatico></MensajeEstatico>
-        <p>Seleccion de las peliculas favoritas de {this.state.nombre}</p>
-        <span>
-          <button onClick={this.cambiarTitulo}>press</button>
-        </span>
-        {/*this.state.favorita.titulo ? 
+      <React.Fragment>
+
+        <Slider
+          titulo="Peliculas"
+          size="slider-small">
+        </Slider>
+        <div className="center">
+          <div id="content" className="peliculas">
+            <h2 className="subheader">Listado de Peliculas</h2>
+            <MensajeEstatico></MensajeEstatico>
+            <p>Seleccion de las peliculas favoritas de {this.state.nombre}</p>
+            <span>
+              <button onClick={this.cambiarTitulo}>press</button>
+            </span>
+            {/*this.state.favorita.titulo ? 
          ( <p className="favorita" style= {estilos}>
             <strong>La pelicula favorita es: </strong>
             <span>{this.state.favorita.titulo}</span>
           </p>) : (<p>TIENES QUE SELECCIONAR UNA PELICULA FAVORITA</p> )
         */}
-        {miFavorita}
-        <div id="articles" className="peliculas">
+            {miFavorita}
+            <div id="articles" className="peliculas">
 
-          {
-            this.state.peliculas.map((pelicula, i) => {
-              return (
-                <Pelicula key={i} indice={i} pelicula={pelicula} marcarFavorita={this.favorita}></Pelicula>
+              {
+                this.state.peliculas.map((pelicula, i) => {
+                  return (
+                    <Pelicula key={i} indice={i} pelicula={pelicula} marcarFavorita={this.favorita}></Pelicula>
 
-              )
-            })
+                  )
+                })
 
-          }
+              }
+            </div>
+          </div>
+          <Sidebar blog="false"></Sidebar>
         </div>
-      </div>
+      </React.Fragment>
     )
   }
 }
