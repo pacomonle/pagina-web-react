@@ -28,6 +28,12 @@ export default class Router extends Component {
                         <Route exact path="/" component={Home}></Route>
                         <Route exact path="/home" component={Home}></Route>
                         <Route exact path="/blog" component={Blog}></Route>
+                        <Route exact path="/blog/articulo/:id" render={() => (
+                            <React.Fragment>
+                                <h1>pagina individual articulo</h1>
+                                <MiComponente saludo="Hola amigo"></MiComponente>
+                            </React.Fragment>
+                        )}></Route>
                         <Route exact path="/formulario" component={Formulario}></Route>
                         <Route exact path="/peliculas" component={Peliculas}></Route>
 
