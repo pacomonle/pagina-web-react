@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 
 import SeccionPruebas from './components/SeccionPruebas';
 import MiComponente from './components/MiComponente';
@@ -11,6 +11,9 @@ import Footer from "./components/Footer";
 import Home from "./components/Home";
 import Peliculas from "./components/Peliculas";
 import Formulario from "./components/Formulario";
+import Search from "./components/Search";
+import Article from "./components/Article";
+
 
 export default class Router extends Component {
 
@@ -28,12 +31,16 @@ export default class Router extends Component {
                         <Route exact path="/" component={Home}></Route>
                         <Route exact path="/home" component={Home}></Route>
                         <Route exact path="/blog" component={Blog}></Route>
-                        <Route exact path="/blog/articulo/:id" render={() => (
-                            <React.Fragment>
-                                <h1>pagina individual articulo</h1>
-                                <MiComponente saludo="Hola amigo"></MiComponente>
-                            </React.Fragment>
-                        )}></Route>
+                        <Route exact path="/blog/article/:id" component={Article}></Route>
+                        <Route exact path="/blog/busqueda/:search" component={Search}></Route>
+                        <Route exact path="/redirect/:search" render={
+                            (props) => {
+                             var search = props.match.params.search;
+                             return(
+                           <Redirect to={'/blog/busqueda/'+search}></Redirect>)  
+                            }
+                         }>
+                         </Route>
                         <Route exact path="/formulario" component={Formulario}></Route>
                         <Route exact path="/peliculas" component={Peliculas}></Route>
 

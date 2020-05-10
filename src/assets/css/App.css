@@ -207,6 +207,20 @@
   background: black;
 }
 
+.btn-danger {
+  background: red !important;
+  color: white !important;
+  float: left;
+  margin-right: 15px;
+}
+
+.btn-warning {
+  background: yellowgreen !important;
+  color: white !important;
+  float: left;
+}
+
+
 .mid-form {
   width: 50%;
   margin: 0px auto;

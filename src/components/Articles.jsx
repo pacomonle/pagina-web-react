@@ -22,13 +22,52 @@ export default class Articles extends Component {
 
     componentWillMount() {
         var home = this.props.home;
+        var search = this.props.search;
+
         if (home === 'true'){
             this.getLastArticles();
+        }else if(search && search != null && search !=undefined){
+     
+             this.getArticlesBySearch(search);
+
         }else{
             this.getArticles();
         }
         
+        
+       
+        
     }
+
+
+    getArticlesBySearch = (searched) => {
+        console.log('articulos')
+        axios.get(this.url+'search/'+ searched)
+            .then(res => {
+               if (res.data.articles){
+                this.setState({
+                    articles: res.data.articles,
+                    status: 'success'
+                });
+            } /*else{
+                this.setState({
+                    articles: res.data.articles,
+                    status: 'failed'
+                });
+            }*/
+                console.log('estado', this.state);
+            }).catch( err =>{
+                console.log('error', err.response.data);
+                this.setState({
+                    articles:[],
+                    status: 'success'
+                });
+            });
+
+    }
+
+
+
 
   
     getLastArticles = () => {
@@ -69,6 +108,7 @@ export default class Articles extends Component {
 
     render() {
         console.log(this.state.status);
+        console.log(this.state.articles.length);
         if (this.state.articles.length >= 1) {
 
             var listArticles = this.state.articles.map((article, index) => {
@@ -97,7 +137,7 @@ export default class Articles extends Component {
                             {listArticles}
                         </div>
             );
-        } else if (this.state.status === 'succes' && this.state.articles.lenght === 0) {
+        } else if (this.state.status === 'success' && this.state.articles.length <= 0) {
             return (
                         <div id="articles">
                             <h2 className="subheader">No hay articulos para mostrar</h2>
