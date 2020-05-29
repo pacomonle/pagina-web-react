@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Redirect, Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import Axios from 'axios'
 import Global from '../Global'
 import Sidebar from './Sidebar'
@@ -7,8 +7,8 @@ import Moment from "react-moment"
 import 'moment/locale/es'
 // importar archivo de imagen local
 import defaultImages from '../assets/images/images.png'
-
-
+// alertas
+import swal from 'sweetalert'
 
 
 export default class Article extends Component {
@@ -23,21 +23,24 @@ export default class Article extends Component {
     componentDidMount() {
 
         this.getArticle();
+        console.log("articulo", this.state.article, this.state.status)
 
     }
 
 
     getArticle = () => {
-        var id = this.props.match.params.id;
+        const id = this.props.match.params.id;
+        console.log("id", id)
 
-        Axios.get(this.url+'article/'+id)
+        Axios.get(this.url + 'article/' + id)
             .then(res => {
+                console.log("res", res)
                 this.setState({
-                    article: res.data,
+                    article: res.data.article,
                     status: 'success'
                 });
             })
-            .catch( err =>{
+            .catch(err => {
                 console.log('error', err.response.data);
                 this.setState({
                     article: false,
@@ -45,41 +48,76 @@ export default class Article extends Component {
                 });
             });
     }
-/*
-   componentDidUpdate(prevProps, prevState){
-        if(this.state.article !== prevState.article){
+
+
+    deleteArticle = (id) => {
+    console.log("id", id)
+        swal({
+            title: "Estas segurlo?",
+            text: "Una vez eliminado, no podrá recuperar este archivo!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+                if (willDelete) {
+                    Axios.delete(this.url+'article/'+id)
+                        .then(res => {
+                            this.setState({
+                                article: res.data.article,
+                                status: 'deleted'
+                            })
+                            swal(
+                                "Articulo Borrado",
+                                "El articulo ha sido borrado correctamente",
+                                "success"
+                            );
+                        });
+                } else {
+                    swal(
+                          "OK!!",
+                          "Tu archivo está seguro!!",
+                          "success"
+                          );
+                }
+            });
+
+        
+    }
+
+
+    componentDidUpdate(prevProps, prevState) {
+
+        console.log(this.state.status, prevState.status)
+        if (this.state.status !== prevState.status) {
             this.getArticle()
         };
-      
-   }
-    
 
-     shouldComponentUpdate(nextProps, nextState) {
-        
-        return nextState.article !== this.state.article
+    }
 
-     } 
-*/
 
     render() {
-       
+
+        if (this.state.status === "deleted") {
+            return <Redirect to="/blog"></Redirect>
+        }
         const article = this.state.article;
         console.log('articulo obj', article);
-        console.log('articulo-title', article.title);
+
 
         return (
             <div id="article">
                 <div className="center">
                     <section id="content">
-                        {this.state.article &&
+                        {article &&
 
                             <article className="article-item article-detail">
                                 <div className="image-wrap">
-                                { 
-                                    ( article.image !== null ) ? (
-                                  <img src={this.url + "get-image/" + article.image} alt={article.title} />
-                                  ) : ( <img src={defaultImages} alt="{article.title}" />)
-                              }
+                                    {
+                                        (article.image !== null) ? (
+                                            <img src={this.url + "get-image/" + article.image} alt={article.title} />
+                                        ) : (<img src={defaultImages} alt={article.title} />)
+                                    }
                                 </div>
 
                                 <h1 className="subheader">{article.title}</h1>
@@ -87,19 +125,23 @@ export default class Article extends Component {
                                     <Moment locale="es" fromNow>{article.date}</Moment>
                                 </span>
                                 <p>
-                                   {article.content}
+                                    {article.content}
                                 </p>
-                                <a href="" className="btn btn-danger">Eliminar</a>
-                                <a href="" className="btn btn-warning">Editar</a>
+                                <button onClick={
+                                    () => {
+                                        this.deleteArticle(article._id)
+                                    }
+                                } className="btn btn-danger">Eliminar</button>
+                                <Link to={'/blog/editar/'+article._id} className="btn btn-warning">Editar</Link>
                                 <div className="clearfix"></div>
                             </article>
                         }
-                        { !this.state.article && this.state.status === "success" &&
-                        <div id="article">
-                            <h2 className="subheader">El articlulo no existe</h2>
-                            <p>intentalo mas tarde</p>
-                        </div>}
-                        { this.state.status === null &&
+                        {!article && this.state.status === "success" &&
+                            <div id="article">
+                                <h2 className="subheader">El articlulo no existe</h2>
+                                <p>intentalo mas tarde</p>
+                            </div>}
+                        {this.state.status === null &&
                             <div id="article">
                                 <h2 className="subheader">Cargando...</h2>
                                 <p>espere unos segundos</p>

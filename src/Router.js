@@ -13,6 +13,8 @@ import Peliculas from "./components/Peliculas";
 import Formulario from "./components/Formulario";
 import Search from "./components/Search";
 import Article from "./components/Article";
+import CreateArticles from './components/CreateArticles'
+import EditarArticle from './components/EditarArticle'
 
 
 export default class Router extends Component {
@@ -32,6 +34,8 @@ export default class Router extends Component {
                         <Route exact path="/home" component={Home}></Route>
                         <Route exact path="/blog" component={Blog}></Route>
                         <Route exact path="/blog/article/:id" component={Article}></Route>
+                        <Route exact path="/blog/crear" component={CreateArticles}></Route>
+                        <Route exact path="/blog/editar/:id" component={EditarArticle}></Route>
                         <Route exact path="/blog/busqueda/:search" component={Search}></Route>
                         <Route exact path="/redirect/:search" render={
                             (props) => {

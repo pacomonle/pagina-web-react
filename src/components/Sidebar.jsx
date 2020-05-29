@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Redirect } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 
 export default class Sidebar extends Component {
 
@@ -33,7 +33,7 @@ export default class Sidebar extends Component {
                     {(this.props.blog==="true") && 
                     <div id="nav-blog" className="sidebar-item">
                         <h3>Puedes hacer esto</h3>
-                        <a href="#" className="btn btn-success">Crear artículo</a>
+                        <Link to='blog/crear' className="btn btn-success">Crear artículo</Link>
                     </div>}
                     <div id="search" className="sidebar-item">
                         <h3>Buscador</h3>

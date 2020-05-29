@@ -26,7 +26,7 @@ export default class Articles extends Component {
 
         if (home === 'true'){
             this.getLastArticles();
-        }else if(search && search != null && search !=undefined){
+        }else if(search && search !== null && search !==undefined){
      
              this.getArticlesBySearch(search);
 
@@ -113,7 +113,7 @@ export default class Articles extends Component {
 
             var listArticles = this.state.articles.map((article, index) => {
                 return (
-                    <article className="article-item article-detail">
+                    <article key={article._id} className="article-item article-detail">
                         <div className="image-wrap">
                           { 
                               ( article.image !== null ) ? (
